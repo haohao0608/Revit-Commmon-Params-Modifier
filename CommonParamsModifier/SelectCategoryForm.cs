@@ -17,6 +17,7 @@ namespace CommonParamsModifier
         private UIDocument uiDoc;
         private Document doc;
         private List<Category> categories = new List<Category>();
+        private List<int> catIds = new List<int>();
         private List<Element> allElements = new List<Element>();
 
         public SelectCategoryForm(ExternalCommandData exCmdData)
@@ -56,7 +57,6 @@ namespace CommonParamsModifier
             //        listView1.Items.Add(listViewItem);
             //    }
             //}
-            List<int> catIds = new List<int>();
             foreach (Category category in categories)
             {
                 catIds.Add(category.Id.IntegerValue);
@@ -91,6 +91,12 @@ namespace CommonParamsModifier
                 }
             }
             return elements;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            List<Category> selectedCats = new List<Category>();
+            MessageBox.Show(listView1.SelectedItems[0].SubItems[1].Text.ToString()); 
         }
     }
 }
