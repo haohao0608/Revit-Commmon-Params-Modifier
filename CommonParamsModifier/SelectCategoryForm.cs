@@ -24,21 +24,20 @@ namespace CommonParamsModifier
             InitializeComponent();
             this.uiDoc = exCmdData.Application.ActiveUIDocument;
             this.doc = uiDoc.Document;
+            
 
             InitCategories();
+     
             UpdateListView();
+
             
         }
 
         private void InitCategories()
         {
-             allElements = getAllElements();
+            allElements = getAllElements();
             foreach (Element elem in allElements)
             {
-                if (categories.Equals(null))
-                {
-                    categories.Add(elem.Category);                    
-                }
                 if (!categories.Contains(elem.Category))
                 {
                     categories.Add(elem.Category);
@@ -48,10 +47,30 @@ namespace CommonParamsModifier
 
         private void UpdateListView()
         {
+            //foreach (Category category in categories)
+            //{
+            //    ListViewItem listViewItem = new ListViewItem(category.Name.ToString());
+            //    listViewItem.SubItems.Add(category.Id.ToString());
+            //    if (!listView1.Items.ContainsKey(category.Name.ToString()))
+            //    {
+            //        listView1.Items.Add(listViewItem);
+            //    }
+            //}
+            List<int> catIds = new List<int>();
             foreach (Category category in categories)
             {
-                ListViewItem listViewItem = new ListViewItem();
-                listViewItem.SubItems.Add(category.ToString());
+                catIds.Add(category.Id.IntegerValue);
+            }
+            catIds = catIds.Distinct().ToList();
+            foreach (int catId in catIds)
+            {
+                if (categories.Exists(x => x.Id.IntegerValue.Equals(catId))){
+                    Category category = categories.Find(x => x.Id.IntegerValue.Equals(catId));
+                    ListViewItem listViewItem = new ListViewItem(category.Name.ToString());
+                    listViewItem.SubItems.Add(category.Id.ToString());
+                    listView1.Items.Add(listViewItem);
+                }
+
             }
         }
 
