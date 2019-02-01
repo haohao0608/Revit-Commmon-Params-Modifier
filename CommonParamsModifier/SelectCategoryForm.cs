@@ -163,15 +163,48 @@ namespace CommonParamsModifier
                 panel1.Visible = true;
                 Parameter chosenPara = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Find(x => x.Definition.Name == chosenStr);
                 List<ParameterType> number = new List<ParameterType>();
+                List<ParameterType> str = new List<ParameterType>();
                 number.Add(ParameterType.Integer);
                 number.Add(ParameterType.Length);
                 number.Add(ParameterType.Number);
+                str.Add(ParameterType.Text);
                 if (number.Contains(chosenPara.Definition.ParameterType))
                 {
                     comboBox4.Visible = label4.Visible = textBox3.Visible = false;
                     comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = true;
                 }
+                else if (str.Contains(chosenPara.Definition.ParameterType))
+                {
+                    textBox3.Visible = true;
+                    comboBox4.Visible = label4.Visible =  false;
+                    comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
+                }else if (chosenPara.Definition.ParameterType.Equals(ParameterType.YesNo))
+                {
+                    textBox3.Visible = false;
+                    comboBox4.Visible = label4.Visible = true;
+                    comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
+                }
             }   
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void checkValidity(object sender, EventArgs e)
+        {
+            System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
+            string str = textBox.Text;
+            if (textBox.Equals(textBox1)||textBox.Equals(textBox2))
+            {
+                float number;
+                bool result = float.TryParse(str, out number);
+                if (! result)
+                {
+                    MessageBox.Show("Invalid input");
+                }
+            }
         }
     }
 }

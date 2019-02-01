@@ -48,6 +48,7 @@
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -146,6 +147,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.textBox3);
             this.panel1.Controls.Add(this.comboBox4);
@@ -155,7 +157,7 @@
             this.panel1.Controls.Add(this.comboBox2);
             this.panel1.Location = new System.Drawing.Point(376, 126);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(207, 328);
+            this.panel1.Size = new System.Drawing.Size(207, 186);
             this.panel1.TabIndex = 9;
             this.panel1.Visible = false;
             // 
@@ -228,8 +230,19 @@
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 21);
             this.label4.TabIndex = 6;
-            this.label4.Text = "Contains";
+            this.label4.Text = "Contains:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.label4.Visible = false;
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(100, 138);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(80, 30);
+            this.button4.TabIndex = 7;
+            this.button4.Text = "Confirm";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // SelectCategoryForm
             // 
@@ -275,5 +288,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.Button button4;
     }
 }
