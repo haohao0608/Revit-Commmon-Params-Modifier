@@ -21,7 +21,8 @@ namespace CommonParamsModifier
         private List<int> catIds = new List<int>();
         private List<Element> allElements = new List<Element>();
         private List<Category> selectedCats = new List<Category>();
-        List<Element> selectedEles = new List<Element>();
+        private List<Element> selectedEles = new List<Element>();
+        private List<string> commonParamsDefNames = new List<string>();
 
         public SelectCategoryForm(ExternalCommandData exCmdData)
         {
@@ -119,6 +120,7 @@ namespace CommonParamsModifier
 
             highLight();
             updateCommonParamsDefNames();
+            updateComboBox();
         }
 
         private void highLight()
@@ -133,17 +135,43 @@ namespace CommonParamsModifier
         }
 
         private void updateCommonParamsDefNames()
-        {   
-            List<string> commonParamsDefNames = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Select(x=>x.Definition.Name).ToList();
+        {
+            commonParamsDefNames = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Select(x=>x.Definition.Name).ToList();
             
             foreach(Element elem in selectedEles)
             {
-                List<string> tempParamsNames = Util.RawConvertSetToList<Parameter>(elem.Parameters).Select(x => x.Definition.Name).ToList();
+                List<string> tempParamsNames = Util.RawConvertSetToList<Parameter>(elem.Parameters).FindAll(x=>x.UserModifiable.Equals(true)).Select(x => x.Definition.Name).ToList();
                 commonParamsDefNames = commonParamsDefNames.Intersect(tempParamsNames).ToList();
-                MessageBox.Show(commonParamsDefNames.Count.ToString());
             }
-           
+            
         }
 
+        private void updateComboBox()
+        {
+            comboBox1.Items.AddRange(commonParamsDefNames.ToArray());
+            string select = "--Select--";
+            comboBox1.Items.Add(select);
+            comboBox1.Text = select;
+            comboBox1.SelectedItem = select;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string chosenStr = comboBox1.SelectedText;
+            if (chosenStr != "--Select--")
+            {
+                panel1.Visible = true;
+                Parameter chosenPara = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Find(x => x.Definition.Name == chosenStr);
+                List<ParameterType> number = new List<ParameterType>();
+                number.Add(ParameterType.Integer);
+                number.Add(ParameterType.Length);
+                number.Add(ParameterType.Number);
+                if (number.Contains(chosenPara.Definition.ParameterType))
+                {
+                    comboBox4.Visible = label4.Visible = textBox3.Visible = false;
+                    comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = true;
+                }
+            }   
+        }
     }
 }
