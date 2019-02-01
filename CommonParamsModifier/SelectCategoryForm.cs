@@ -1,5 +1,6 @@
 ﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using Autodesk.Revit.UI.Selection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,6 +20,8 @@ namespace CommonParamsModifier
         private List<Category> categories = new List<Category>();
         private List<int> catIds = new List<int>();
         private List<Element> allElements = new List<Element>();
+        private List<Category> selectedCats = new List<Category>();
+        List<Element> selectedEles = new List<Element>();
 
         public SelectCategoryForm(ExternalCommandData exCmdData)
         {
@@ -95,8 +98,52 @@ namespace CommonParamsModifier
 
         private void button1_Click(object sender, EventArgs e)
         {
-            List<Category> selectedCats = new List<Category>();
-            MessageBox.Show(listView1.SelectedItems[0].SubItems[1].Text.ToString()); 
+            selectedCats.Clear();
+            selectedEles.Clear();
+            for (int i=0; i < listView1.SelectedItems.Count; i++)
+            {
+                int Id = Convert.ToInt32(listView1.SelectedItems[i].SubItems[1].Text);
+                Category category = categories.Find(x => x.Id.IntegerValue.Equals(Id));
+                if (category!= null)
+                {
+                    selectedCats.Add(category);
+                }    
+            }
+            //string str = "";
+            //foreach (Category category in selectedCats)
+            //{
+            //    str += category.Name;
+            //}
+            //label2.Text = str;
+
+
+            highLight();
+            getCommonParams();
         }
+
+        private void highLight()
+        {
+            foreach (Category category in selectedCats)
+            {
+                selectedEles.AddRange(allElements.FindAll(x => x.Category.Id.IntegerValue.Equals(category.Id.IntegerValue)));
+            }
+            List<ElementId> elementIds = selectedEles.Select(o => o.Id).ToList();
+            uiDoc.Selection.SetElementIds(elementIds);
+            uiDoc.RefreshActiveView();
+        }
+
+        private void getCommonParams()
+        {   
+            List<Parameter> commonParams = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters);
+            foreach (Element elem in selectedEles)
+            {
+                List<Parameter> params2 = Util.RawConvertSetToList<Parameter>(elem.Parameters);
+                //commonParams = commonParams.Intersect(params2).ToList();
+                MessageBox.Show("a "+selectedEles[0].Id.ToString() + " "+ commonParams[1].Definition.ParameterGroup.ToString());
+                MessageBox.Show("b " + elem.Id.ToString() + " " + params2[1].Definition.ParameterGroup.ToString());
+            }
+            
+        }
+
     }
 }
