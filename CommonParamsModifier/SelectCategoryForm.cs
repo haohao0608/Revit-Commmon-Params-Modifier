@@ -118,7 +118,7 @@ namespace CommonParamsModifier
 
 
             highLight();
-            getCommonParams();
+            updateCommonParamsDefNames();
         }
 
         private void highLight()
@@ -132,17 +132,17 @@ namespace CommonParamsModifier
             uiDoc.RefreshActiveView();
         }
 
-        private void getCommonParams()
+        private void updateCommonParamsDefNames()
         {   
-            List<Parameter> commonParams = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters);
-            foreach (Element elem in selectedEles)
-            {
-                List<Parameter> params2 = Util.RawConvertSetToList<Parameter>(elem.Parameters);
-                //commonParams = commonParams.Intersect(params2).ToList();
-                MessageBox.Show("a "+selectedEles[0].Id.ToString() + " "+ commonParams[1].Definition.ParameterGroup.ToString());
-                MessageBox.Show("b " + elem.Id.ToString() + " " + params2[1].Definition.ParameterGroup.ToString());
-            }
+            List<string> commonParamsDefNames = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Select(x=>x.Definition.Name).ToList();
             
+            foreach(Element elem in selectedEles)
+            {
+                List<string> tempParamsNames = Util.RawConvertSetToList<Parameter>(elem.Parameters).Select(x => x.Definition.Name).ToList();
+                commonParamsDefNames = commonParamsDefNames.Intersect(tempParamsNames).ToList();
+                MessageBox.Show(commonParamsDefNames.Count.ToString());
+            }
+           
         }
 
     }
