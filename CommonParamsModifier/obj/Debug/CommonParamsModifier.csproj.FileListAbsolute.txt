@@ -70,4 +70,3 @@ C:\Users\labuser\Desktop\Intern Files\CommonParamsModifier\CommonParamsModifier\
 C:\Users\labuser\Desktop\Intern Files\CommonParamsModifier\CommonParamsModifier\obj\Debug\CommonParamsModifier.dll
 C:\Users\labuser\Desktop\Intern Files\CommonParamsModifier\CommonParamsModifier\obj\Debug\CommonParamsModifier.pdb
 C:\Users\labuser\Desktop\Intern Files\CommonParamsModifier\CommonParamsModifier\obj\Debug\CommonParamsModifier.SelectCategoryForm.resources
-C:\Users\labuser\Desktop\Intern Files\CommonParamsModifier\CommonParamsModifier\obj\Debug\CommonParamsModifier.csprojAssemblyReference.cache

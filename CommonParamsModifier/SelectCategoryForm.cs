@@ -1,10 +1,12 @@
-﻿using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,7 @@ using System.Windows.Forms;
 
 namespace CommonParamsModifier
 {
+    [Transaction(TransactionMode.Manual)]
     public partial class SelectCategoryForm : System.Windows.Forms.Form
     {
         private UIDocument uiDoc;
@@ -157,30 +160,36 @@ namespace CommonParamsModifier
             comboBox1.Text = select;
             comboBox1.SelectedItem = select;
         }
-
-        private void button3_Click(object sender, EventArgs e)
+        
+        private void comboBox1TextChanged(object sender, EventArgs e)
         {
+            if (comboBox1.SelectedItem == null)
+            {
+                return;
+            }
             string chosenStr = comboBox1.Text;
             if (chosenStr != "--Select--")
             {
                 panel1.Visible = true;
                 //chosenPara = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Find(x => x.Definition.Name == chosenStr);
                 chosenPara = selectedEles[0].GetParameters(chosenStr)[0];
-                
-                if (chosenPara.StorageType==StorageType.Double)
+
+                if (chosenPara.StorageType == StorageType.Double)
                 {
                     comboBox4.Visible = label4.Visible = textBox3.Visible = false;
                     comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = true;
                     comboBox2.SelectedIndex = 0;
                     comboBox3.SelectedIndex = 0;
+                    button4.Location = new System.Drawing.Point(button4.Location.X, textBox2.Location.Y + textBox2.Size.Height + 6);
                 }
                 else if (chosenPara.StorageType == StorageType.String)
                 {
-                    textBox3.Visible = true;
-                    comboBox4.Visible = label4.Visible =  false;
+                    textBox3.Visible = label4.Visible = true;
+                    comboBox4.Visible = false;
                     comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
+                    button4.Location = new System.Drawing.Point(button4.Location.X, textBox3.Location.Y + textBox3.Size.Height + 6);
                 }
-            }   
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -241,6 +250,8 @@ namespace CommonParamsModifier
             {
                 foreach(Element element in selectedEles)
                 {
+                    string tempStr = element.GetParameters(comboBox1.Text)[0].AsString();
+                    if (tempStr == null) { continue; }
                     if (element.GetParameters(comboBox1.Text)[0].AsString().Contains(textBox3.Text))
                     {
                         FilteredElement.Add(element);
@@ -272,6 +283,51 @@ namespace CommonParamsModifier
                 if (! result)
                 {
                     MessageBox.Show("Invalid input");
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (textBox4.Text == null) { return; }
+            Transaction t = new Transaction(doc, "Modifying Attributes");
+            if (chosenPara.StorageType == StorageType.String)
+            {
+                t.Start();
+                foreach (Element element in selectedEles)
+                {
+                    try
+                    {
+                        element.GetParameters(comboBox1.Text)[0].Set(textBox4.Text);
+                    }
+                    catch(Exception exp)
+                    {
+                        Trace.WriteLine(exp);
+                    }
+                    
+                }
+                t.Commit();
+            }else if(chosenPara.StorageType == StorageType.Double)
+            {
+                double tempDouble;
+                if (double.TryParse(textBox4.Text, out tempDouble))
+                {
+                    t.Start();
+                    foreach (Element element in selectedEles)
+                    {
+                        try
+                        {
+                            element.GetParameters(comboBox1.Text)[0].Set(tempDouble);
+                        }
+                        catch (Exception exp)
+                        {
+                            Trace.WriteLine(exp);
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Invalid input for this parameter.");
                 }
             }
         }
