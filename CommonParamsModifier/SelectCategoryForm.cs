@@ -23,6 +23,8 @@ namespace CommonParamsModifier
         private List<Category> selectedCats = new List<Category>();
         private List<Element> selectedEles = new List<Element>();
         private List<string> commonParamsDefNames = new List<string>();
+        private int parameterMode = -1;
+        private Parameter chosenPara;
 
         public SelectCategoryForm(ExternalCommandData exCmdData)
         {
@@ -157,12 +159,13 @@ namespace CommonParamsModifier
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string chosenStr = comboBox1.SelectedText;
+            string chosenStr = comboBox1.Text;
             if (chosenStr != "--Select--")
             {
                 panel1.Visible = true;
-                Parameter chosenPara = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Find(x => x.Definition.Name == chosenStr);
-                List<ParameterType> number = new List<ParameterType>();
+                //chosenPara = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Find(x => x.Definition.Name == chosenStr);
+                chosenPara = selectedEles[0].GetParameters(chosenStr)[0];
+                List <ParameterType> number = new List<ParameterType>();
                 List<ParameterType> str = new List<ParameterType>();
                 number.Add(ParameterType.Integer);
                 number.Add(ParameterType.Length);
@@ -172,24 +175,105 @@ namespace CommonParamsModifier
                 {
                     comboBox4.Visible = label4.Visible = textBox3.Visible = false;
                     comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = true;
+                    comboBox2.SelectedIndex = 0;
+                    comboBox3.SelectedIndex = 0;
+                    parameterMode = 0;
                 }
                 else if (str.Contains(chosenPara.Definition.ParameterType))
                 {
                     textBox3.Visible = true;
                     comboBox4.Visible = label4.Visible =  false;
                     comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
+                    parameterMode = 1;
                 }else if (chosenPara.Definition.ParameterType.Equals(ParameterType.YesNo))
                 {
-                    textBox3.Visible = false;
-                    comboBox4.Visible = label4.Visible = true;
+                    textBox3.Visible = label4.Visible=false;
+                    comboBox4.Visible = true;
                     comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
+                    comboBox4.SelectedIndex = 0;
+                    parameterMode = 2;
                 }
             }   
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            
+            List<Element> FilteredElement = new List<Element>();
+            if (parameterMode == 0)
+            {
+                if (comboBox2.SelectedIndex == 0 && comboBox3.SelectedIndex == 0)
+                {
+                    foreach (Element element in selectedEles)
+                    {
+                        int value = element.GetParameters(comboBox1.Text)[0].AsInteger();
+                        if ((value < Int32.Parse(comboBox2.Text))&&(value>Int32.Parse(comboBox3.Text)))
+                        {
+                            FilteredElement.Add(element);
+                        }
+                    }
+                }
+                else if(comboBox2.SelectedIndex == 1 && comboBox3.SelectedIndex == 0)
+                {
+                    foreach (Element element in selectedEles)
+                    {
+                        int value = element.GetParameters(comboBox1.Text)[0].AsInteger();
+                        if ((value <= Int32.Parse(comboBox2.Text)) && (value > Int32.Parse(comboBox3.Text)))
+                        {
+                            FilteredElement.Add(element);
+                        }
+                    }
+                }
+                else if (comboBox2.SelectedIndex == 0 && comboBox3.SelectedIndex == 1)
+                {
+                    foreach (Element element in selectedEles)
+                    {
+                        int value = element.GetParameters(comboBox1.Text)[0].AsInteger();
+                        if ((value < Int32.Parse(comboBox2.Text)) && (value >= Int32.Parse(comboBox3.Text)))
+                        {
+                            FilteredElement.Add(element);
+                        }
+                    }
+                }
+                else if (comboBox2.SelectedIndex == 1 && comboBox3.SelectedIndex == 1)
+                {
+                    foreach (Element element in selectedEles)
+                    {
+                        int value = element.GetParameters(comboBox1.Text)[0].AsInteger();
+                        if ((value <= Int32.Parse(comboBox2.Text)) && (value >= Int32.Parse(comboBox3.Text)))
+                        {
+                            FilteredElement.Add(element);
+                        }
+                    }
+                }
+            }
+            else if(parameterMode == 1)
+            {
+                foreach(Element element in selectedEles)
+                {
+                    if (element.GetParameters(comboBox1.Text)[0].AsString().Contains(textBox3.Text))
+                    {
+                        FilteredElement.Add(element);
+                    }
+                }
+
+            }else if(parameterMode == 2)
+            {
+                foreach (Element element in selectedEles)
+                {
+                    if (element.GetParameters(comboBox1.Text)[0].AsString().Contains(comboBox4.Text))
+                    {
+                        FilteredElement.Add(element);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selected parameter is not supported");
+            }
+
+
+            selectedEles.Clear();
+            selectedEles.AddRange(FilteredElement);
         }
 
         private void checkValidity(object sender, EventArgs e)
