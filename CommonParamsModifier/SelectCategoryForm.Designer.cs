@@ -166,8 +166,8 @@
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
-            "<",
-            "<="});
+            ">",
+            ">="});
             this.comboBox2.Location = new System.Drawing.Point(3, 16);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(56, 21);
@@ -179,8 +179,8 @@
             this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox3.FormattingEnabled = true;
             this.comboBox3.Items.AddRange(new object[] {
-            ">",
-            ">="});
+            "<",
+            "<="});
             this.comboBox3.Location = new System.Drawing.Point(3, 43);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(56, 21);

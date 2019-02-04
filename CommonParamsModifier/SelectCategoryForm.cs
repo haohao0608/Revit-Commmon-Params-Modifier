@@ -23,7 +23,6 @@ namespace CommonParamsModifier
         private List<Category> selectedCats = new List<Category>();
         private List<Element> selectedEles = new List<Element>();
         private List<string> commonParamsDefNames = new List<string>();
-        private int parameterMode = -1;
         private Parameter chosenPara;
 
         public SelectCategoryForm(ExternalCommandData exCmdData)
@@ -138,18 +137,20 @@ namespace CommonParamsModifier
 
         private void updateCommonParamsDefNames()
         {
+            commonParamsDefNames.Clear();
             commonParamsDefNames = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Select(x=>x.Definition.Name).ToList();
             
             foreach(Element elem in selectedEles)
-            {
-                List<string> tempParamsNames = Util.RawConvertSetToList<Parameter>(elem.Parameters).FindAll(x=>x.UserModifiable.Equals(true)).Select(x => x.Definition.Name).ToList();
+            {//.FindAll(x=>x.UserModifiable.Equals(true))
+                List<string> tempParamsNames = Util.RawConvertSetToList<Parameter>(elem.Parameters).Select(x => x.Definition.Name).ToList();
                 commonParamsDefNames = commonParamsDefNames.Intersect(tempParamsNames).ToList();
             }
-            
+            commonParamsDefNames.Sort();
         }
 
         private void updateComboBox()
         {
+            comboBox1.Items.Clear();
             comboBox1.Items.AddRange(commonParamsDefNames.ToArray());
             string select = "--Select--";
             comboBox1.Items.Add(select);
@@ -165,33 +166,19 @@ namespace CommonParamsModifier
                 panel1.Visible = true;
                 //chosenPara = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Find(x => x.Definition.Name == chosenStr);
                 chosenPara = selectedEles[0].GetParameters(chosenStr)[0];
-                List <ParameterType> number = new List<ParameterType>();
-                List<ParameterType> str = new List<ParameterType>();
-                number.Add(ParameterType.Integer);
-                number.Add(ParameterType.Length);
-                number.Add(ParameterType.Number);
-                str.Add(ParameterType.Text);
-                if (number.Contains(chosenPara.Definition.ParameterType))
+                
+                if (chosenPara.StorageType==StorageType.Double)
                 {
                     comboBox4.Visible = label4.Visible = textBox3.Visible = false;
                     comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = true;
                     comboBox2.SelectedIndex = 0;
                     comboBox3.SelectedIndex = 0;
-                    parameterMode = 0;
                 }
-                else if (str.Contains(chosenPara.Definition.ParameterType))
+                else if (chosenPara.StorageType == StorageType.String)
                 {
                     textBox3.Visible = true;
                     comboBox4.Visible = label4.Visible =  false;
                     comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
-                    parameterMode = 1;
-                }else if (chosenPara.Definition.ParameterType.Equals(ParameterType.YesNo))
-                {
-                    textBox3.Visible = label4.Visible=false;
-                    comboBox4.Visible = true;
-                    comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
-                    comboBox4.SelectedIndex = 0;
-                    parameterMode = 2;
                 }
             }   
         }
@@ -199,14 +186,15 @@ namespace CommonParamsModifier
         private void button4_Click(object sender, EventArgs e)
         {
             List<Element> FilteredElement = new List<Element>();
-            if (parameterMode == 0)
+            if (chosenPara.StorageType == StorageType.Double)
             {
                 if (comboBox2.SelectedIndex == 0 && comboBox3.SelectedIndex == 0)
                 {
                     foreach (Element element in selectedEles)
                     {
-                        int value = element.GetParameters(comboBox1.Text)[0].AsInteger();
-                        if ((value < Int32.Parse(comboBox2.Text))&&(value>Int32.Parse(comboBox3.Text)))
+                        double value = element.GetParameters(comboBox1.Text)[0].AsDouble();
+                        value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
+                        if ((value > float.Parse(textBox1.Text))&&(value<float.Parse(textBox2.Text)))
                         {
                             FilteredElement.Add(element);
                         }
@@ -216,8 +204,9 @@ namespace CommonParamsModifier
                 {
                     foreach (Element element in selectedEles)
                     {
-                        int value = element.GetParameters(comboBox1.Text)[0].AsInteger();
-                        if ((value <= Int32.Parse(comboBox2.Text)) && (value > Int32.Parse(comboBox3.Text)))
+                        double value = element.GetParameters(comboBox1.Text)[0].AsDouble();
+                        value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
+                        if ((value >= float.Parse(textBox1.Text)) && (value < float.Parse(textBox2.Text)))
                         {
                             FilteredElement.Add(element);
                         }
@@ -227,8 +216,9 @@ namespace CommonParamsModifier
                 {
                     foreach (Element element in selectedEles)
                     {
-                        int value = element.GetParameters(comboBox1.Text)[0].AsInteger();
-                        if ((value < Int32.Parse(comboBox2.Text)) && (value >= Int32.Parse(comboBox3.Text)))
+                        double value = element.GetParameters(comboBox1.Text)[0].AsDouble();
+                        value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
+                        if ((value > float.Parse(textBox1.Text)) && (value <= float.Parse(textBox2.Text)))
                         {
                             FilteredElement.Add(element);
                         }
@@ -238,15 +228,16 @@ namespace CommonParamsModifier
                 {
                     foreach (Element element in selectedEles)
                     {
-                        int value = element.GetParameters(comboBox1.Text)[0].AsInteger();
-                        if ((value <= Int32.Parse(comboBox2.Text)) && (value >= Int32.Parse(comboBox3.Text)))
+                        double value = element.GetParameters(comboBox1.Text)[0].AsDouble();
+                        value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
+                        if ((value >= float.Parse(textBox1.Text)) && (value <= float.Parse(textBox2.Text)))
                         {
                             FilteredElement.Add(element);
                         }
                     }
                 }
             }
-            else if(parameterMode == 1)
+            else if(chosenPara.StorageType == StorageType.String)
             {
                 foreach(Element element in selectedEles)
                 {
@@ -256,15 +247,6 @@ namespace CommonParamsModifier
                     }
                 }
 
-            }else if(parameterMode == 2)
-            {
-                foreach (Element element in selectedEles)
-                {
-                    if (element.GetParameters(comboBox1.Text)[0].AsString().Contains(comboBox4.Text))
-                    {
-                        FilteredElement.Add(element);
-                    }
-                }
             }
             else
             {
@@ -274,6 +256,9 @@ namespace CommonParamsModifier
 
             selectedEles.Clear();
             selectedEles.AddRange(FilteredElement);
+            List<ElementId> elementIds = selectedEles.Select(o => o.Id).ToList();
+            uiDoc.Selection.SetElementIds(elementIds);
+            uiDoc.RefreshActiveView();
         }
 
         private void checkValidity(object sender, EventArgs e)
