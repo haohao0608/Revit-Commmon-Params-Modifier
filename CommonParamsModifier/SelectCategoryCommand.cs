@@ -31,7 +31,9 @@ namespace CommonParamsModifier
         {
             ApplicationMain.modifierXEventHandler = new ModifierXEventHandler();
             ApplicationMain.externalEvent = ExternalEvent.Create(ApplicationMain.modifierXEventHandler);
-            SelectCategoryForm form = new SelectCategoryForm(exCmdData,ApplicationMain.modifierXEventHandler);
+            ApplicationMain.modifierXEventHandler.ModifierXEvent = ApplicationMain.externalEvent;
+
+            SelectCategoryForm form = new SelectCategoryForm(exCmdData, ApplicationMain.modifierXEventHandler);
             form.Show();
         }
     }

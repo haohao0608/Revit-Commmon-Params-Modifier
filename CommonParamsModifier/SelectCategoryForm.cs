@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -29,6 +30,8 @@ namespace CommonParamsModifier
         private Parameter chosenPara;
         private ModifierXEventHandler modifierXEventHandler;
 
+        private ManualResetEvent manualResetEvent; 
+
         public SelectCategoryForm(ExternalCommandData exCmdData, ModifierXEventHandler modifierXEventHandler)
         {
             InitializeComponent();
@@ -37,15 +40,58 @@ namespace CommonParamsModifier
             this.modifierXEventHandler = modifierXEventHandler;
 
             InitCategories();
-     
             UpdateListView();
 
             
         }
 
-        public void ModifierEventStorageTypeDouble()
+        public void StorageTypeStringModifierEvent(UIApplication uiApp, object args)
+        {
+            Transaction t = new Transaction(doc, "Modifying Attributes");
+            t.Start();
+            foreach (Element element in selectedEles)
+            {
+                try
+                {
+                    element.GetParameters(comboBox1.Text)[0].Set(textBox4.Text);
+                }
+                catch (Exception exp)
+                {
+                    Trace.WriteLine(exp);
+                }
+            }
+            t.Commit();
+            
+        }
+
+        public void StorageTypeDoubleModifierEvent(UIApplication uiApp, object args)
         {
 
+            Transaction t = new Transaction(doc, "Modifying Attributes");
+            
+            double tempDouble;
+            if (double.TryParse(textBox4.Text, out tempDouble))
+            {
+                t.Start();
+                foreach (Element element in selectedEles)
+                {
+                    try
+                    {
+                        tempDouble = Autodesk.Revit.DB.UnitUtils.Convert(tempDouble, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
+                        element.GetParameters(comboBox1.Text)[0].Set(tempDouble);
+                    }
+                    catch (Exception exp)
+                    {
+                        Trace.WriteLine(exp);
+                    }
+                }
+                t.Commit();
+            }
+            else
+            {
+                MessageBox.Show("Invalid input for this parameter.");
+            }
+            
         }
 
         private void InitCategories()
@@ -296,48 +342,16 @@ namespace CommonParamsModifier
         private void button3_Click(object sender, EventArgs e)
         {
             if (textBox4.Text == null) { return; }
-            Transaction t = new Transaction(doc, "Modifying Attributes");
-            if (chosenPara.StorageType == StorageType.String)
+            this.manualResetEvent = new ManualResetEvent(false);
+            if (chosenPara.StorageType == StorageType.Double)
             {
-                t.Start();
-                foreach (Element element in selectedEles)
-                {
-                    try
-                    {
-                        element.GetParameters(comboBox1.Text)[0].Set(textBox4.Text);
-                    }
-                    catch(Exception exp)
-                    {
-                        Trace.WriteLine(exp);
-                    }
-                    
-                }
-                t.Commit();
-            }
-            else if(chosenPara.StorageType == StorageType.Double)
+                this.modifierXEventHandler.SetActionAndRaise(this.StorageTypeDoubleModifierEvent, this.manualResetEvent);
+            }else if(chosenPara.StorageType == StorageType.String)
             {
-                double tempDouble;
-                if (double.TryParse(textBox4.Text, out tempDouble))
-                {
-                    t.Start();
-                    foreach (Element element in selectedEles)
-                    {
-                        try
-                        {
-                            element.GetParameters(comboBox1.Text)[0].Set(tempDouble);
-                        }
-                        catch (Exception exp)
-                        {
-                            Trace.WriteLine(exp);
-                        }
-                    }
-                    t.Commit();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid input for this parameter.");
-                }
+                this.modifierXEventHandler.SetActionAndRaise(this.StorageTypeStringModifierEvent, this.manualResetEvent);
             }
+
+            
         }
     }
 }
