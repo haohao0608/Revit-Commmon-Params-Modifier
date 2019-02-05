@@ -72,12 +72,12 @@ namespace CommonParamsModifier
             double tempDouble;
             if (double.TryParse(textBox4.Text, out tempDouble))
             {
+                tempDouble = Autodesk.Revit.DB.UnitUtils.Convert(tempDouble, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES);
                 t.Start();
                 foreach (Element element in selectedEles)
                 {
                     try
                     {
-                        tempDouble = Autodesk.Revit.DB.UnitUtils.Convert(tempDouble, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
                         element.GetParameters(comboBox1.Text)[0].Set(tempDouble);
                     }
                     catch (Exception exp)
