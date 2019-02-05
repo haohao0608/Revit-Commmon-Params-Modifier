@@ -18,6 +18,8 @@ namespace CommonParamsModifier
 
         private static UIControlledApplication uiCtrApp;
         private static ApplicationMain activeApp;
+        public static ModifierXEventHandler modifierXEventHandler;
+        public static ExternalEvent externalEvent;
 
         #endregion
 
@@ -29,6 +31,18 @@ namespace CommonParamsModifier
         public static ApplicationMain ActiveApp
         {
             get { return ApplicationMain.activeApp; }
+        }
+
+        public static ExternalEvent ExternalEvent
+        {
+            get { return ApplicationMain.externalEvent; }
+            set { ApplicationMain.externalEvent = value; }
+        }
+
+        public static ModifierXEventHandler ModifierXEventHandler
+        {
+            get { return ApplicationMain.modifierXEventHandler; }
+            set { ApplicationMain.modifierXEventHandler = value; }
         }
 
         public Result OnShutdown(UIControlledApplication app)

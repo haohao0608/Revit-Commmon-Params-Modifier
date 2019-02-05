@@ -27,19 +27,25 @@ namespace CommonParamsModifier
         private List<Element> selectedEles = new List<Element>();
         private List<string> commonParamsDefNames = new List<string>();
         private Parameter chosenPara;
+        private ModifierXEventHandler modifierXEventHandler;
 
-        public SelectCategoryForm(ExternalCommandData exCmdData)
+        public SelectCategoryForm(ExternalCommandData exCmdData, ModifierXEventHandler modifierXEventHandler)
         {
             InitializeComponent();
             this.uiDoc = exCmdData.Application.ActiveUIDocument;
             this.doc = uiDoc.Document;
-            
+            this.modifierXEventHandler = modifierXEventHandler;
 
             InitCategories();
      
             UpdateListView();
 
             
+        }
+
+        public void ModifierEventStorageTypeDouble()
+        {
+
         }
 
         private void InitCategories()
@@ -307,7 +313,8 @@ namespace CommonParamsModifier
                     
                 }
                 t.Commit();
-            }else if(chosenPara.StorageType == StorageType.Double)
+            }
+            else if(chosenPara.StorageType == StorageType.Double)
             {
                 double tempDouble;
                 if (double.TryParse(textBox4.Text, out tempDouble))
@@ -324,6 +331,7 @@ namespace CommonParamsModifier
                             Trace.WriteLine(exp);
                         }
                     }
+                    t.Commit();
                 }
                 else
                 {
