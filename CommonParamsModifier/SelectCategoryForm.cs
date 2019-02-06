@@ -41,51 +41,53 @@ namespace CommonParamsModifier
 
             InitCategories();
             UpdateListView();
+            setElementHost();
 
             
         }
 
         public void StorageTypeStringModifierEvent(UIApplication uiApp, object args)
         {
-            Transaction t = new Transaction(doc, "Modifying Attributes");
-            t.Start();
-            foreach (Element element in selectedEles)
+            try
             {
-                try
+                Transaction t = new Transaction(doc, "Modifying Attributes");
+                t.Start();
+                foreach (Element element in selectedEles)
                 {
                     element.GetParameters(comboBox1.Text)[0].Set(textBox4.Text);
                 }
-                catch (Exception exp)
-                {
-                    Trace.WriteLine(exp);
-                }
+                t.Commit();
             }
-            t.Commit();
+            catch(Exception exp)
+            {
+                Trace.WriteLine(exp);
+                MessageBox.Show("ModifierX cannot finish the transacation.");
+            }
+            
             
         }
 
         public void StorageTypeDoubleModifierEvent(UIApplication uiApp, object args)
         {
-
-            Transaction t = new Transaction(doc, "Modifying Attributes");
-            
             double tempDouble;
             if (double.TryParse(textBox4.Text, out tempDouble))
             {
-                tempDouble = Autodesk.Revit.DB.UnitUtils.Convert(tempDouble, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES);
-                t.Start();
-                foreach (Element element in selectedEles)
+                try
                 {
-                    try
+                    tempDouble = Autodesk.Revit.DB.UnitUtils.Convert(tempDouble, DisplayUnitType.DUT_MILLIMETERS, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES);
+                    Transaction t = new Transaction(doc, "Modifying Attributes");
+                    t.Start();
+                    foreach (Element element in selectedEles)
                     {
                         element.GetParameters(comboBox1.Text)[0].Set(tempDouble);
                     }
-                    catch (Exception exp)
-                    {
-                        Trace.WriteLine(exp);
-                    }
+                    t.Commit();
                 }
-                t.Commit();
+                catch (Exception exp)
+                {
+                    Trace.WriteLine(exp);
+                    MessageBox.Show("ModifierX cannot finish the transacation.");
+                }
             }
             else
             {
@@ -108,15 +110,6 @@ namespace CommonParamsModifier
 
         private void UpdateListView()
         {
-            //foreach (Category category in categories)
-            //{
-            //    ListViewItem listViewItem = new ListViewItem(category.Name.ToString());
-            //    listViewItem.SubItems.Add(category.Id.ToString());
-            //    if (!listView1.Items.ContainsKey(category.Name.ToString()))
-            //    {
-            //        listView1.Items.Add(listViewItem);
-            //    }
-            //}
             foreach (Category category in categories)
             {
                 catIds.Add(category.Id.IntegerValue);
@@ -166,17 +159,20 @@ namespace CommonParamsModifier
                     selectedCats.Add(category);
                 }    
             }
-            //string str = "";
-            //foreach (Category category in selectedCats)
-            //{
-            //    str += category.Name;
-            //}
-            //label2.Text = str;
-
 
             highLight();
             updateCommonParamsDefNames();
             updateComboBox();
+        }
+
+        private void setElementHost()
+        {
+            elementHost1.Child = new PreviewControl(doc, doc.ActiveView.Id);
+        }
+
+        private void testCheck(object sender, EventArgs e)
+        {
+            MessageBox.Show("There you go");
         }
 
         private void highLight()
@@ -196,7 +192,7 @@ namespace CommonParamsModifier
             commonParamsDefNames = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Select(x=>x.Definition.Name).ToList();
             
             foreach(Element elem in selectedEles)
-            {//.FindAll(x=>x.UserModifiable.Equals(true))
+            {
                 List<string> tempParamsNames = Util.RawConvertSetToList<Parameter>(elem.Parameters).Select(x => x.Definition.Name).ToList();
                 commonParamsDefNames = commonParamsDefNames.Intersect(tempParamsNames).ToList();
             }
@@ -223,7 +219,6 @@ namespace CommonParamsModifier
             if (chosenStr != "--Select--")
             {
                 panel1.Visible = true;
-                //chosenPara = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Find(x => x.Definition.Name == chosenStr);
                 chosenPara = selectedEles[0].GetParameters(chosenStr)[0];
 
                 if (chosenPara.StorageType == StorageType.Double)
@@ -322,23 +317,14 @@ namespace CommonParamsModifier
             List<ElementId> elementIds = selectedEles.Select(o => o.Id).ToList();
             uiDoc.Selection.SetElementIds(elementIds);
             uiDoc.RefreshActiveView();
+            //updateElementHost();
         }
 
         private void checkValidity(object sender, EventArgs e)
         {
-            System.Windows.Forms.TextBox textBox = (System.Windows.Forms.TextBox)sender;
-            string str = textBox.Text;
-            if (textBox.Equals(textBox1)||textBox.Equals(textBox2))
-            {
-                float number;
-                bool result = float.TryParse(str, out number);
-                if (! result)
-                {
-                    MessageBox.Show("Invalid input");
-                }
-            }
+
         }
-//
+
         private void button3_Click(object sender, EventArgs e)
         {
             if (textBox4.Text == null) { return; }
@@ -350,8 +336,7 @@ namespace CommonParamsModifier
             {
                 this.modifierXEventHandler.SetActionAndRaise(this.StorageTypeStringModifierEvent, this.manualResetEvent);
             }
-
-            
+            //updateElementHost();
         }
     }
 }

@@ -34,7 +34,6 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -105,15 +104,6 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(147, 318);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(80, 30);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
             // comboBox1
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -152,15 +142,15 @@
             this.panel1.Controls.Add(this.comboBox2);
             this.panel1.Location = new System.Drawing.Point(12, 424);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(200, 200);
+            this.panel1.Size = new System.Drawing.Size(249, 200);
             this.panel1.TabIndex = 9;
             this.panel1.Visible = false;
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(99, 91);
+            this.button4.Location = new System.Drawing.Point(169, 91);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(80, 30);
+            this.button4.Size = new System.Drawing.Size(80, 25);
             this.button4.TabIndex = 7;
             this.button4.Text = "Confirm";
             this.button4.UseVisualStyleBackColor = true;
@@ -180,7 +170,7 @@
             // 
             this.textBox3.Location = new System.Drawing.Point(79, 17);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.Size = new System.Drawing.Size(170, 20);
             this.textBox3.TabIndex = 5;
             this.textBox3.Visible = false;
             // 
@@ -201,7 +191,7 @@
             // 
             this.textBox2.Location = new System.Drawing.Point(79, 43);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.Size = new System.Drawing.Size(170, 20);
             this.textBox2.TabIndex = 3;
             this.textBox2.Visible = false;
             // 
@@ -209,7 +199,7 @@
             // 
             this.textBox1.Location = new System.Drawing.Point(79, 16);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.Size = new System.Drawing.Size(170, 20);
             this.textBox1.TabIndex = 2;
             this.textBox1.Visible = false;
             // 
@@ -243,7 +233,7 @@
             // 
             this.elementHost1.Location = new System.Drawing.Point(274, 12);
             this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(350, 350);
+            this.elementHost1.Size = new System.Drawing.Size(621, 350);
             this.elementHost1.TabIndex = 10;
             this.elementHost1.Text = "elementHost1";
             this.elementHost1.Child = null;
@@ -252,23 +242,23 @@
             // 
             this.panel2.Controls.Add(this.button3);
             this.panel2.Controls.Add(this.textBox4);
-            this.panel2.Location = new System.Drawing.Point(330, 415);
+            this.panel2.Location = new System.Drawing.Point(695, 373);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(200, 200);
+            this.panel2.Size = new System.Drawing.Size(200, 248);
             this.panel2.TabIndex = 11;
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(38, 25);
+            this.textBox4.Location = new System.Drawing.Point(30, 25);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(115, 20);
+            this.textBox4.Size = new System.Drawing.Size(170, 20);
             this.textBox4.TabIndex = 0;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(73, 52);
+            this.button3.Location = new System.Drawing.Point(120, 62);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(80, 30);
+            this.button3.Size = new System.Drawing.Size(80, 25);
             this.button3.TabIndex = 1;
             this.button3.Text = "Modify";
             this.button3.UseVisualStyleBackColor = true;
@@ -278,19 +268,18 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(636, 633);
+            this.ClientSize = new System.Drawing.Size(907, 633);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.elementHost1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listView1);
             this.Name = "SelectCategoryForm";
-            this.Text = " ";
+            this.Text = " ModifierX";
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -305,7 +294,6 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.BindingSource bindingSource1;
