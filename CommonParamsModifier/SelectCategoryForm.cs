@@ -40,8 +40,8 @@ namespace CommonParamsModifier
             this.modifierXEventHandler = modifierXEventHandler;
 
             InitCategories();
-            UpdateListView();
-            setElementHost();
+            UpdateCheckedListBox();
+            SetElementHost();
 
             
         }
@@ -108,7 +108,7 @@ namespace CommonParamsModifier
             }
         }
 
-        private void UpdateListView()
+        private void UpdateCheckedListBox()
         {
             foreach (Category category in categories)
             {
@@ -119,11 +119,8 @@ namespace CommonParamsModifier
             {
                 if (categories.Exists(x => x.Id.IntegerValue.Equals(catId))){
                     Category category = categories.Find(x => x.Id.IntegerValue.Equals(catId));
-                    ListViewItem listViewItem = new ListViewItem(category.Name.ToString());
-                    listViewItem.SubItems.Add(category.Id.ToString());
-                    listView1.Items.Add(listViewItem);
+                    checkedListBox1.Items.Add(category.Name);
                 }
-
             }
         }
 
@@ -150,10 +147,10 @@ namespace CommonParamsModifier
         {
             selectedCats.Clear();
             selectedEles.Clear();
-            for (int i=0; i < listView1.SelectedItems.Count; i++)
+            MessageBox.Show("hi");
+            for (int i=0; i < checkedListBox1.CheckedItems.Count; i++)
             {
-                int Id = Convert.ToInt32(listView1.SelectedItems[i].SubItems[1].Text);
-                Category category = categories.Find(x => x.Id.IntegerValue.Equals(Id));
+                Category category = categories.Find(x => x.Name.Equals(checkedListBox1.CheckedItems[i].ToString()));
                 if (category!= null)
                 {
                     selectedCats.Add(category);
@@ -165,7 +162,7 @@ namespace CommonParamsModifier
             updateComboBox();
         }
 
-        private void setElementHost()
+        private void SetElementHost()
         {
             elementHost1.Child = new PreviewControl(doc, doc.ActiveView.Id);
         }
@@ -188,6 +185,7 @@ namespace CommonParamsModifier
 
         private void updateCommonParamsDefNames()
         {
+            if (selectedEles.Count == 0) { return;  }
             commonParamsDefNames.Clear();
             commonParamsDefNames = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Select(x=>x.Definition.Name).ToList();
             
@@ -219,8 +217,8 @@ namespace CommonParamsModifier
             if (chosenStr != "--Select--")
             {
                 panel1.Visible = true;
+                
                 chosenPara = selectedEles[0].GetParameters(chosenStr)[0];
-
                 if (chosenPara.StorageType == StorageType.Double)
                 {
                     comboBox4.Visible = label4.Visible = textBox3.Visible = false;
@@ -317,12 +315,6 @@ namespace CommonParamsModifier
             List<ElementId> elementIds = selectedEles.Select(o => o.Id).ToList();
             uiDoc.Selection.SetElementIds(elementIds);
             uiDoc.RefreshActiveView();
-            //updateElementHost();
-        }
-
-        private void checkValidity(object sender, EventArgs e)
-        {
-
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -336,7 +328,6 @@ namespace CommonParamsModifier
             {
                 this.modifierXEventHandler.SetActionAndRaise(this.StorageTypeStringModifierEvent, this.manualResetEvent);
             }
-            //updateElementHost();
         }
     }
 }
