@@ -42,8 +42,16 @@ namespace CommonParamsModifier
             InitCategories();
             UpdateCheckedListBox();
             SetElementHost();
-
+            SetPanel1();
             
+        }
+
+        private void SetPanel1()
+        {
+            string combobox1InitStr = "--Select--";
+            comboBox1.Items.Add(combobox1InitStr);
+            comboBox1.SelectedItem = combobox1InitStr;
+
         }
 
         public void StorageTypeStringModifierEvent(UIApplication uiApp, object args)
@@ -143,11 +151,10 @@ namespace CommonParamsModifier
             return elements;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void CheckedListBoxCheckedItemsChanged(object sender, EventArgs e)
         {
             selectedCats.Clear();
             selectedEles.Clear();
-            MessageBox.Show("hi");
             for (int i=0; i < checkedListBox1.CheckedItems.Count; i++)
             {
                 Category category = categories.Find(x => x.Name.Equals(checkedListBox1.CheckedItems[i].ToString()));
@@ -156,7 +163,6 @@ namespace CommonParamsModifier
                     selectedCats.Add(category);
                 }    
             }
-
             highLight();
             updateCommonParamsDefNames();
             updateComboBox();
@@ -185,8 +191,10 @@ namespace CommonParamsModifier
 
         private void updateCommonParamsDefNames()
         {
-            if (selectedEles.Count == 0) { return;  }
             commonParamsDefNames.Clear();
+
+            if (selectedEles.Count == 0) { return; }
+
             commonParamsDefNames = Util.RawConvertSetToList<Parameter>(selectedEles[0].Parameters).Select(x=>x.Definition.Name).ToList();
             
             foreach(Element elem in selectedEles)
@@ -200,24 +208,23 @@ namespace CommonParamsModifier
         private void updateComboBox()
         {
             comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(commonParamsDefNames.ToArray());
             string select = "--Select--";
             comboBox1.Items.Add(select);
-            comboBox1.Text = select;
             comboBox1.SelectedItem = select;
+
+            if (selectedEles.Count == 0) { return; }
+
+            comboBox1.Items.AddRange(commonParamsDefNames.ToArray());
         }
         
         private void comboBox1TextChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedItem == null)
-            {
-                return;
-            }
+            if (comboBox1.SelectedItem == null) { return; }
+            
             string chosenStr = comboBox1.Text;
             if (chosenStr != "--Select--")
             {
-                panel1.Visible = true;
-                
+                button4.Visible = true;
                 chosenPara = selectedEles[0].GetParameters(chosenStr)[0];
                 if (chosenPara.StorageType == StorageType.Double)
                 {
@@ -234,21 +241,46 @@ namespace CommonParamsModifier
                     comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
                     button4.Location = new System.Drawing.Point(button4.Location.X, textBox3.Location.Y + textBox3.Size.Height + 6);
                 }
+                else
+                {
+                    comboBox4.Visible = label4.Visible = textBox3.Visible = false;
+                    comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
+                    button4.Location = new System.Drawing.Point(button4.Location.X, comboBox1.Location.Y + comboBox1.Size.Height + 6);
+                }
+            }
+            else
+            {
+                chosenPara = null;
+                comboBox4.Visible = label4.Visible = textBox3.Visible = false;
+                comboBox2.Visible = comboBox3.Visible = textBox1.Visible = textBox2.Visible = false;
+                button4.Visible = false;
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             List<Element> FilteredElement = new List<Element>();
+
+            foreach (Category category in selectedCats)
+            {
+                selectedEles.AddRange(allElements.FindAll(x => x.Category.Id.IntegerValue.Equals(category.Id.IntegerValue)));
+            }
+
             if (chosenPara.StorageType == StorageType.Double)
             {
+                double more, less;
+                if (!(double.TryParse(textBox1.Text, out more) && double.TryParse(textBox2.Text, out less))) {
+                    MessageBox.Show("Invalid input.", "ModifierX");
+                    return;
+                }
+
                 if (comboBox2.SelectedIndex == 0 && comboBox3.SelectedIndex == 0)
                 {
                     foreach (Element element in selectedEles)
                     {
                         double value = element.GetParameters(comboBox1.Text)[0].AsDouble();
                         value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
-                        if ((value > float.Parse(textBox1.Text))&&(value<float.Parse(textBox2.Text)))
+                        if ((value > more) &&(value < less))
                         {
                             FilteredElement.Add(element);
                         }
@@ -260,7 +292,7 @@ namespace CommonParamsModifier
                     {
                         double value = element.GetParameters(comboBox1.Text)[0].AsDouble();
                         value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
-                        if ((value >= float.Parse(textBox1.Text)) && (value < float.Parse(textBox2.Text)))
+                        if ((value >= more) && (value < less))
                         {
                             FilteredElement.Add(element);
                         }
@@ -272,7 +304,7 @@ namespace CommonParamsModifier
                     {
                         double value = element.GetParameters(comboBox1.Text)[0].AsDouble();
                         value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
-                        if ((value > float.Parse(textBox1.Text)) && (value <= float.Parse(textBox2.Text)))
+                        if ((value > more) && (value <= less))
                         {
                             FilteredElement.Add(element);
                         }
@@ -284,7 +316,7 @@ namespace CommonParamsModifier
                     {
                         double value = element.GetParameters(comboBox1.Text)[0].AsDouble();
                         value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
-                        if ((value >= float.Parse(textBox1.Text)) && (value <= float.Parse(textBox2.Text)))
+                        if ((value >= more) && (value <= less))
                         {
                             FilteredElement.Add(element);
                         }
@@ -306,7 +338,8 @@ namespace CommonParamsModifier
             }
             else
             {
-                MessageBox.Show("Selected parameter is not supported");
+                MessageBox.Show("Selected parameter is not supported.", "ModifierX");
+                return;
             }
 
 
@@ -319,7 +352,7 @@ namespace CommonParamsModifier
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (textBox4.Text == null) { return; }
+            if (chosenPara == null) { return;  }
             this.manualResetEvent = new ManualResetEvent(false);
             if (chosenPara.StorageType == StorageType.Double)
             {
@@ -327,6 +360,11 @@ namespace CommonParamsModifier
             }else if(chosenPara.StorageType == StorageType.String)
             {
                 this.modifierXEventHandler.SetActionAndRaise(this.StorageTypeStringModifierEvent, this.manualResetEvent);
+            }
+            else
+            {
+                MessageBox.Show("Selected parameter is not supported.", "ModifierX");
+                return;
             }
         }
     }

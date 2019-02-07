@@ -79,7 +79,7 @@ namespace CommonParamsModifier
             this.ActiontoExecute = new Tuple<Action<UIApplication, object>, object>(actionToExecute, args);
             this.ResetEvent = resetEvent;
 
-            //SetForegroundWindow(Autodesk.Windows.ComponentManager.ApplicationWindow);
+            SetForegroundWindow(Autodesk.Windows.ComponentManager.ApplicationWindow);
 
             this.modifierXEvent.Raise();
 
