@@ -1,0 +1,2 @@
+1.When the revir have error, the form lost the view;
+2. Storage type int and elementId

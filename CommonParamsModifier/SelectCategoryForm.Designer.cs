@@ -1,6 +1,6 @@
 ﻿namespace CommonParamsModifier
 {
-    partial class SelectCategoryForm
+    partial class ModifierXForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,261 +28,235 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.comboBox4 = new System.Windows.Forms.ComboBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
-            this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.selectCategotyLabel = new System.Windows.Forms.Label();
+            this.parametersComboBox = new System.Windows.Forms.ComboBox();
+            this.selectParameterLabel = new System.Windows.Forms.Label();
+            this.filterPanel = new System.Windows.Forms.Panel();
+            this.selectParameterConfirmButton = new System.Windows.Forms.Button();
+            this.filterContainsLabel = new System.Windows.Forms.Label();
+            this.stringFilterComboBox = new System.Windows.Forms.TextBox();
+            this.morethanTextBox = new System.Windows.Forms.TextBox();
+            this.lessthanTextBox = new System.Windows.Forms.TextBox();
+            this.lessthanComboBox = new System.Windows.Forms.ComboBox();
+            this.morethanComboBox = new System.Windows.Forms.ComboBox();
+            this.ViewElementHost = new System.Windows.Forms.Integration.ElementHost();
+            this.modifyPanel = new System.Windows.Forms.Panel();
+            this.modifyLabel = new System.Windows.Forms.Label();
+            this.modifyButton = new System.Windows.Forms.Button();
+            this.modifyTextBox = new System.Windows.Forms.TextBox();
+            this.categoryCheckedListBox = new System.Windows.Forms.CheckedListBox();
+            this.filterPanel.SuspendLayout();
+            this.modifyPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // selectCategotyLabel
             // 
-            this.label1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 382);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(249, 33);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "The model has the following categories, please select tw or more categories:";
+            this.selectCategotyLabel.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.selectCategotyLabel.Location = new System.Drawing.Point(12, 382);
+            this.selectCategotyLabel.Name = "selectCategotyLabel";
+            this.selectCategotyLabel.Size = new System.Drawing.Size(249, 33);
+            this.selectCategotyLabel.TabIndex = 2;
+            this.selectCategotyLabel.Text = "The model has the following categories, please select tw or more categories:";
             // 
-            // comboBox1
+            // parametersComboBox
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(10, 50);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(250, 21);
-            this.comboBox1.TabIndex = 5;
-            this.comboBox1.TextChanged += new System.EventHandler(this.comboBox1TextChanged);
+            this.parametersComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.parametersComboBox.FormattingEnabled = true;
+            this.parametersComboBox.Location = new System.Drawing.Point(10, 50);
+            this.parametersComboBox.Name = "parametersComboBox";
+            this.parametersComboBox.Size = new System.Drawing.Size(250, 21);
+            this.parametersComboBox.TabIndex = 5;
+            this.parametersComboBox.TextChanged += new System.EventHandler(this.parametersComboBoxTextChanged);
             // 
-            // label2
+            // selectParameterLabel
             // 
-            this.label2.Font = new System.Drawing.Font("Arial", 9.75F);
-            this.label2.Location = new System.Drawing.Point(10, 9);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(250, 33);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Select a common parameter:";
+            this.selectParameterLabel.Font = new System.Drawing.Font("Arial", 9.75F);
+            this.selectParameterLabel.Location = new System.Drawing.Point(10, 9);
+            this.selectParameterLabel.Name = "selectParameterLabel";
+            this.selectParameterLabel.Size = new System.Drawing.Size(250, 33);
+            this.selectParameterLabel.TabIndex = 6;
+            this.selectParameterLabel.Text = "Select a common parameter:";
             // 
-            // label3
+            // filterPanel
             // 
-            this.label3.Location = new System.Drawing.Point(230, 68);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(178, 132);
-            this.label3.TabIndex = 7;
+            this.filterPanel.Controls.Add(this.selectParameterConfirmButton);
+            this.filterPanel.Controls.Add(this.filterContainsLabel);
+            this.filterPanel.Controls.Add(this.stringFilterComboBox);
+            this.filterPanel.Controls.Add(this.morethanTextBox);
+            this.filterPanel.Controls.Add(this.selectParameterLabel);
+            this.filterPanel.Controls.Add(this.lessthanTextBox);
+            this.filterPanel.Controls.Add(this.parametersComboBox);
+            this.filterPanel.Controls.Add(this.lessthanComboBox);
+            this.filterPanel.Controls.Add(this.morethanComboBox);
+            this.filterPanel.Location = new System.Drawing.Point(268, 373);
+            this.filterPanel.Name = "filterPanel";
+            this.filterPanel.Size = new System.Drawing.Size(273, 248);
+            this.filterPanel.TabIndex = 9;
             // 
-            // panel1
+            // selectParameterConfirmButton
             // 
-            this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.textBox3);
-            this.panel1.Controls.Add(this.comboBox4);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.comboBox1);
-            this.panel1.Controls.Add(this.comboBox3);
-            this.panel1.Controls.Add(this.comboBox2);
-            this.panel1.Location = new System.Drawing.Point(268, 373);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(273, 248);
-            this.panel1.TabIndex = 9;
+            this.selectParameterConfirmButton.Location = new System.Drawing.Point(180, 87);
+            this.selectParameterConfirmButton.Name = "selectParameterConfirmButton";
+            this.selectParameterConfirmButton.Size = new System.Drawing.Size(80, 25);
+            this.selectParameterConfirmButton.TabIndex = 7;
+            this.selectParameterConfirmButton.Text = "Confirm";
+            this.selectParameterConfirmButton.UseVisualStyleBackColor = true;
+            this.selectParameterConfirmButton.Click += new System.EventHandler(this.confirmButton_Click);
             // 
-            // button4
+            // filterContainsLabel
             // 
-            this.button4.Location = new System.Drawing.Point(180, 87);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(80, 25);
-            this.button4.TabIndex = 7;
-            this.button4.Text = "Confirm";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.filterContainsLabel.Location = new System.Drawing.Point(14, 86);
+            this.filterContainsLabel.Name = "filterContainsLabel";
+            this.filterContainsLabel.Size = new System.Drawing.Size(56, 21);
+            this.filterContainsLabel.TabIndex = 6;
+            this.filterContainsLabel.Text = "Contains:";
+            this.filterContainsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.filterContainsLabel.Visible = false;
             // 
-            // label4
+            // stringFilterComboBox
             // 
-            this.label4.Location = new System.Drawing.Point(14, 86);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 21);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Contains:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label4.Visible = false;
+            this.stringFilterComboBox.Location = new System.Drawing.Point(90, 87);
+            this.stringFilterComboBox.Name = "stringFilterComboBox";
+            this.stringFilterComboBox.Size = new System.Drawing.Size(170, 20);
+            this.stringFilterComboBox.TabIndex = 5;
+            this.stringFilterComboBox.Visible = false;
             // 
-            // textBox3
+            // morethanTextBox
             // 
-            this.textBox3.Location = new System.Drawing.Point(90, 87);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(170, 20);
-            this.textBox3.TabIndex = 5;
-            this.textBox3.Visible = false;
+            this.morethanTextBox.Location = new System.Drawing.Point(90, 113);
+            this.morethanTextBox.Name = "morethanTextBox";
+            this.morethanTextBox.Size = new System.Drawing.Size(170, 20);
+            this.morethanTextBox.TabIndex = 3;
+            this.morethanTextBox.Visible = false;
             // 
-            // comboBox4
+            // lessthanTextBox
             // 
-            this.comboBox4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox4.FormattingEnabled = true;
-            this.comboBox4.Items.AddRange(new object[] {
-            "Yes",
-            "No"});
-            this.comboBox4.Location = new System.Drawing.Point(14, 90);
-            this.comboBox4.Name = "comboBox4";
-            this.comboBox4.Size = new System.Drawing.Size(56, 21);
-            this.comboBox4.TabIndex = 4;
-            this.comboBox4.Visible = false;
+            this.lessthanTextBox.Location = new System.Drawing.Point(90, 86);
+            this.lessthanTextBox.Name = "lessthanTextBox";
+            this.lessthanTextBox.Size = new System.Drawing.Size(170, 20);
+            this.lessthanTextBox.TabIndex = 2;
+            this.lessthanTextBox.Visible = false;
             // 
-            // textBox2
+            // lessthanComboBox
             // 
-            this.textBox2.Location = new System.Drawing.Point(90, 113);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(170, 20);
-            this.textBox2.TabIndex = 3;
-            this.textBox2.Visible = false;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(90, 86);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(170, 20);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.Visible = false;
-            // 
-            // comboBox3
-            // 
-            this.comboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Items.AddRange(new object[] {
+            this.lessthanComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.lessthanComboBox.FormattingEnabled = true;
+            this.lessthanComboBox.Items.AddRange(new object[] {
             "<",
             "<="});
-            this.comboBox3.Location = new System.Drawing.Point(14, 113);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(56, 21);
-            this.comboBox3.TabIndex = 1;
-            this.comboBox3.Visible = false;
+            this.lessthanComboBox.Location = new System.Drawing.Point(14, 113);
+            this.lessthanComboBox.Name = "lessthanComboBox";
+            this.lessthanComboBox.Size = new System.Drawing.Size(56, 21);
+            this.lessthanComboBox.TabIndex = 1;
+            this.lessthanComboBox.Visible = false;
             // 
-            // comboBox2
+            // morethanComboBox
             // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.morethanComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.morethanComboBox.FormattingEnabled = true;
+            this.morethanComboBox.Items.AddRange(new object[] {
             ">",
             ">="});
-            this.comboBox2.Location = new System.Drawing.Point(14, 86);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(56, 21);
-            this.comboBox2.TabIndex = 0;
-            this.comboBox2.Visible = false;
+            this.morethanComboBox.Location = new System.Drawing.Point(14, 86);
+            this.morethanComboBox.Name = "morethanComboBox";
+            this.morethanComboBox.Size = new System.Drawing.Size(56, 21);
+            this.morethanComboBox.TabIndex = 0;
+            this.morethanComboBox.Visible = false;
             // 
-            // elementHost1
+            // ViewElementHost
             // 
-            this.elementHost1.Location = new System.Drawing.Point(12, 12);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(735, 350);
-            this.elementHost1.TabIndex = 10;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = null;
+            this.ViewElementHost.Location = new System.Drawing.Point(12, 17);
+            this.ViewElementHost.Name = "ViewElementHost";
+            this.ViewElementHost.Size = new System.Drawing.Size(735, 350);
+            this.ViewElementHost.TabIndex = 10;
+            this.ViewElementHost.Text = "elementHost1";
+            this.ViewElementHost.Child = null;
             // 
-            // panel2
+            // modifyPanel
             // 
-            this.panel2.Controls.Add(this.label5);
-            this.panel2.Controls.Add(this.button3);
-            this.panel2.Controls.Add(this.textBox4);
-            this.panel2.Location = new System.Drawing.Point(547, 373);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(200, 248);
-            this.panel2.TabIndex = 11;
+            this.modifyPanel.Controls.Add(this.modifyLabel);
+            this.modifyPanel.Controls.Add(this.modifyButton);
+            this.modifyPanel.Controls.Add(this.modifyTextBox);
+            this.modifyPanel.Location = new System.Drawing.Point(547, 373);
+            this.modifyPanel.Name = "modifyPanel";
+            this.modifyPanel.Size = new System.Drawing.Size(200, 248);
+            this.modifyPanel.TabIndex = 11;
             // 
-            // label5
+            // modifyLabel
             // 
-            this.label5.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(0, 9);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(200, 33);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Type in the new value:";
+            this.modifyLabel.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.modifyLabel.Location = new System.Drawing.Point(0, 9);
+            this.modifyLabel.Name = "modifyLabel";
+            this.modifyLabel.Size = new System.Drawing.Size(200, 33);
+            this.modifyLabel.TabIndex = 2;
+            this.modifyLabel.Text = "Type in the new value:";
             // 
-            // button3
+            // modifyButton
             // 
-            this.button3.Location = new System.Drawing.Point(120, 81);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(80, 25);
-            this.button3.TabIndex = 1;
-            this.button3.Text = "Modify";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.modifyButton.Location = new System.Drawing.Point(120, 81);
+            this.modifyButton.Name = "modifyButton";
+            this.modifyButton.Size = new System.Drawing.Size(80, 25);
+            this.modifyButton.TabIndex = 1;
+            this.modifyButton.Text = "Modify";
+            this.modifyButton.UseVisualStyleBackColor = true;
+            this.modifyButton.Click += new System.EventHandler(this.modifyButton_Click);
             // 
-            // textBox4
+            // modifyTextBox
             // 
-            this.textBox4.Location = new System.Drawing.Point(0, 50);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(200, 20);
-            this.textBox4.TabIndex = 0;
+            this.modifyTextBox.Location = new System.Drawing.Point(0, 50);
+            this.modifyTextBox.Name = "modifyTextBox";
+            this.modifyTextBox.Size = new System.Drawing.Size(200, 20);
+            this.modifyTextBox.TabIndex = 0;
             // 
-            // checkedListBox1
+            // categoryCheckedListBox
             // 
-            this.checkedListBox1.CheckOnClick = true;
-            this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(12, 423);
-            this.checkedListBox1.Name = "checkedListBox1";
-            this.checkedListBox1.ScrollAlwaysVisible = true;
-            this.checkedListBox1.Size = new System.Drawing.Size(249, 199);
-            this.checkedListBox1.TabIndex = 12;
-            this.checkedListBox1.SelectedValueChanged += new System.EventHandler(this.CheckedListBoxCheckedItemsChanged);
+            this.categoryCheckedListBox.CheckOnClick = true;
+            this.categoryCheckedListBox.FormattingEnabled = true;
+            this.categoryCheckedListBox.Location = new System.Drawing.Point(12, 423);
+            this.categoryCheckedListBox.Name = "categoryCheckedListBox";
+            this.categoryCheckedListBox.ScrollAlwaysVisible = true;
+            this.categoryCheckedListBox.Size = new System.Drawing.Size(249, 199);
+            this.categoryCheckedListBox.TabIndex = 12;
+            this.categoryCheckedListBox.SelectedValueChanged += new System.EventHandler(this.CheckedListBoxCheckedItemsChanged);
             // 
-            // SelectCategoryForm
+            // ModifierXForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(761, 633);
-            this.Controls.Add(this.checkedListBox1);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.elementHost1);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.categoryCheckedListBox);
+            this.Controls.Add(this.modifyPanel);
+            this.Controls.Add(this.ViewElementHost);
+            this.Controls.Add(this.filterPanel);
+            this.Controls.Add(this.selectCategotyLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "SelectCategoryForm";
+            this.Name = "ModifierXForm";
             this.Text = " ModifierX";
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.filterPanel.ResumeLayout(false);
+            this.filterPanel.PerformLayout();
+            this.modifyPanel.ResumeLayout(false);
+            this.modifyPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.ComboBox comboBox3;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.ComboBox comboBox4;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.CheckedListBox checkedListBox1;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label selectCategotyLabel;
+        private System.Windows.Forms.ComboBox parametersComboBox;
+        private System.Windows.Forms.Label selectParameterLabel;
+        private System.Windows.Forms.Panel filterPanel;
+        private System.Windows.Forms.TextBox morethanTextBox;
+        private System.Windows.Forms.TextBox lessthanTextBox;
+        private System.Windows.Forms.ComboBox lessthanComboBox;
+        private System.Windows.Forms.ComboBox morethanComboBox;
+        private System.Windows.Forms.Label filterContainsLabel;
+        private System.Windows.Forms.TextBox stringFilterComboBox;
+        private System.Windows.Forms.Button selectParameterConfirmButton;
+        private System.Windows.Forms.Integration.ElementHost ViewElementHost;
+        private System.Windows.Forms.Panel modifyPanel;
+        private System.Windows.Forms.TextBox modifyTextBox;
+        private System.Windows.Forms.Button modifyButton;
+        private System.Windows.Forms.CheckedListBox categoryCheckedListBox;
+        private System.Windows.Forms.Label modifyLabel;
     }
 }

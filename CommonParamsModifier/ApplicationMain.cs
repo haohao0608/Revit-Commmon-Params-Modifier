@@ -1,12 +1,12 @@
 ﻿/* -------------------------------------------------------------------------------------
  * 
- * Name: CommonParamsModifier.cs
+ * Name: ApplicationMain.cs
  * 
  * Author: Zhonghao Lu
  * 
  * Company: University of Alberta
  * 
- * Description: A class to execute functions with Revit API context when we otherwise wouldn't have it.
+ * Description: The main entrance of ModifierX project.
  * 
  * Copyright © University of Alberta 2016
  * 
@@ -20,16 +20,11 @@ namespace CommonParamsModifier
     using Autodesk.Revit.UI;
     using System;
     using System.Windows;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
     using System.Reflection;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Windows.Interop;
     using System.Windows.Media.Imaging;
 
     #endregion
+
     public class ApplicationMain : IExternalApplication
     {
         #region Fields
@@ -40,6 +35,8 @@ namespace CommonParamsModifier
         public static ExternalEvent externalEvent;
 
         #endregion
+
+        #region properties
 
         public static UIControlledApplication UICtrApp
         {
@@ -77,6 +74,14 @@ namespace CommonParamsModifier
             return Result.Succeeded;
         }
 
+        #endregion
+
+        #region private methods
+
+        /// <summary>
+        /// Added Ribbon Panel to Revit UI;
+        /// </summary>
+        /// <param name="app"></param>
         private void AddRibbonPanel(UIControlledApplication app)
         {
             app.CreateRibbonTab("ModifierX");
@@ -86,18 +91,24 @@ namespace CommonParamsModifier
 
         }
 
+        /// <summary>
+        /// Added Button to RibbonPanel
+        /// </summary>
+        /// <param name="ribbonPanel"></param>
         private void AddButtons(RibbonPanel ribbonPanel)
         {
             PushButtonData pushButtonData = new PushButtonData("SelectCategoryCommand", "Select", Assembly.GetExecutingAssembly().Location, "CommonParamsModifier.SelectCategoryCommand");
             PushButton selectCategoryButton = ribbonPanel.AddItem(pushButtonData) as PushButton;
             //Stream stream = this.GetType().Assembly.GetManifestResourceStream("CommonParamsModifier.Resources.IntersectPath_16x_24.bmp");
             //var decoder = new System.Windows.Media.Imaging.
-            selectCategoryButton.LargeImage = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(CommonParamsModifier.Properties.Resources.IntersectPath_16x_24.GetHbitmap(),
-                                                                                                            IntPtr.Zero, 
-                                                                                                            Int32Rect.Empty, 
-                                                                                                                BitmapSizeOptions.FromEmptyOptions());
+            selectCategoryButton.LargeImage = System.Windows.Interop.Imaging.
+                                            CreateBitmapSourceFromHBitmap(CommonParamsModifier.Properties.Resources.IntersectPath_16x_24.GetHbitmap(),
+                                                                                                          IntPtr.Zero, 
+                                                                                                          Int32Rect.Empty, 
+                                                                                                          BitmapSizeOptions.FromEmptyOptions());
             selectCategoryButton.ToolTip = "Select Categories";
-    
         }
+
+        #endregion
     }
 }

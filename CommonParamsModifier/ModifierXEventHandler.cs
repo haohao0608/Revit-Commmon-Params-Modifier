@@ -1,6 +1,6 @@
 ﻿/* -------------------------------------------------------------------------------------
  * 
- * Name: CommonParamsModifier.cs
+ * Name: ModifierXEventHandler.cs
  * 
  * Modifed: Zhonghao Lu
  * 
