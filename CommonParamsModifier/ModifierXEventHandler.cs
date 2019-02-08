@@ -1,17 +1,33 @@
-﻿using Autodesk.Revit.UI;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-
+﻿/* -------------------------------------------------------------------------------------
+ * 
+ * Name: CommonParamsModifier.cs
+ * 
+ * Modifed: Zhonghao Lu
+ * 
+ * Company: University of Alberta
+ * 
+ * Description: A EventHandler that implements IExternlEventHandler interface which raise events when needed. Mostly adapt from FrameX; 
+ * 
+ * Copyright © University of Alberta 2016
+ * 
+ * -------------------------------------------------------------------------------------
+ */
 namespace CommonParamsModifier
 {
+    #region
+
+    using Autodesk.Revit.UI;
+    using System;
+    using System.Diagnostics;
+    using System.Drawing;
+    using System.Threading;
+    using System.Windows.Forms;
+
+    #endregion
+
+    /// <summary>
+    /// A EventHandler that implements IExternlEventHandler interface which raise events when needed.
+    /// </summary>
     public class ModifierXEventHandler : IExternalEventHandler
     {
 

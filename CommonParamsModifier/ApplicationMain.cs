@@ -1,17 +1,35 @@
-﻿using Autodesk.Revit.UI;
-using System;
-using System.Windows;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
+﻿/* -------------------------------------------------------------------------------------
+ * 
+ * Name: CommonParamsModifier.cs
+ * 
+ * Author: Zhonghao Lu
+ * 
+ * Company: University of Alberta
+ * 
+ * Description: A class to execute functions with Revit API context when we otherwise wouldn't have it.
+ * 
+ * Copyright © University of Alberta 2016
+ * 
+ * -------------------------------------------------------------------------------------
+ */
 
 namespace CommonParamsModifier
 {
+    #region namespaces
+
+    using Autodesk.Revit.UI;
+    using System;
+    using System.Windows;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Windows.Interop;
+    using System.Windows.Media.Imaging;
+
+    #endregion
     public class ApplicationMain : IExternalApplication
     {
         #region Fields
