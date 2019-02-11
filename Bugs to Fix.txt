@@ -1,2 +1,6 @@
-1.When the revir have error, the form lost the view;
-2. Storage type int and elementId
+1.When the revir have error, the form lost the view; Fixed
+2. Storage type int and elementId; 
+3.After modify succeed, the window is not at the front of revit. Fixed
+4.Filter should work for either one. Fixed
+5.Add unit number; Fixed
+6. the Order of tab.

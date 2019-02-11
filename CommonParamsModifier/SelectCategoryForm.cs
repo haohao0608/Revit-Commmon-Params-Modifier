@@ -95,6 +95,7 @@ namespace CommonParamsModifier
                 Trace.WriteLine(exp);
                 MessageBox.Show("ModifierX cannot finish the transacation.");
             }
+            this.BringToFront();
         }
 
         /// <summary>
@@ -117,7 +118,11 @@ namespace CommonParamsModifier
                     {
                         element.GetParameters(parametersComboBox.Text)[0].Set(tempDouble);
                     }
-                    t.Commit();
+                    var transcation_CommitStatus = t.Commit();
+                    if (transcation_CommitStatus != TransactionStatus.Committed)
+                    {
+                        this.Dispose();
+                    }
                 }
                 catch (Exception exp)
                 {
@@ -129,7 +134,7 @@ namespace CommonParamsModifier
             {
                 MessageBox.Show("Invalid input for this parameter.");
             }
-            
+            this.BringToFront();
         }
 
         #endregion
@@ -301,30 +306,34 @@ namespace CommonParamsModifier
                 chosenPara = selectedEles[0].GetParameters(chosenStr)[0];
                 if (chosenPara.StorageType == StorageType.Double)
                 {
-                    filterContainsLabel.Visible = stringFilterComboBox.Visible = false;
-                    morethanComboBox.Visible = lessthanComboBox.Visible = lessthanTextBox.Visible = morethanTextBox.Visible = true;
+                    filterContainsLabel.Visible = stringFilterTextBox.Visible = false;
+                    morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible =
+                        morethanUnit.Visible = lessthanUnit.Visible= true;
                     morethanComboBox.SelectedIndex = 0;
                     lessthanComboBox.SelectedIndex = 0;
-                    selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, morethanTextBox.Location.Y + morethanTextBox.Size.Height + 6);
+                    selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, lessthanTextBox.Location.Y + lessthanTextBox.Size.Height + 6);
                 }
                 else if (chosenPara.StorageType == StorageType.String)
                 {
-                    stringFilterComboBox.Visible = filterContainsLabel.Visible = true;
-                    morethanComboBox.Visible = lessthanComboBox.Visible = lessthanTextBox.Visible = morethanTextBox.Visible = false;
-                    selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, stringFilterComboBox.Location.Y + stringFilterComboBox.Size.Height + 6);
+                    stringFilterTextBox.Visible = filterContainsLabel.Visible = true;
+                    morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible = 
+                        morethanUnit.Visible = lessthanUnit.Visible = false;
+                    selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, stringFilterTextBox.Location.Y + stringFilterTextBox.Size.Height + 6);
                 }
                 else
                 {
-                    filterContainsLabel.Visible = stringFilterComboBox.Visible = false;
-                    morethanComboBox.Visible = lessthanComboBox.Visible = lessthanTextBox.Visible = morethanTextBox.Visible = false;
+                    filterContainsLabel.Visible = stringFilterTextBox.Visible = false;
+                    morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible = 
+                        morethanUnit.Visible = lessthanUnit.Visible = false;
                     selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, parametersComboBox.Location.Y + parametersComboBox.Size.Height + 6);
                 }
+                label1.Text = chosenPara.StorageType.ToString()+' ' + chosenPara.IsReadOnly.ToString()+' ' + chosenPara.UserModifiable.ToString();
             }
             else
             {
                 chosenPara = null;
-                filterContainsLabel.Visible = stringFilterComboBox.Visible = false;
-                morethanComboBox.Visible = lessthanComboBox.Visible = lessthanTextBox.Visible = morethanTextBox.Visible = false;
+                filterContainsLabel.Visible = stringFilterTextBox.Visible = false;
+                morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible = false;
                 selectParameterConfirmButton.Visible = false;
             }
         }
@@ -346,59 +355,85 @@ namespace CommonParamsModifier
 
             if (chosenPara.StorageType == StorageType.Double)
             {
-                double more, less;
-                if (!(double.TryParse(lessthanTextBox.Text, out more) && double.TryParse(morethanTextBox.Text, out less))) {
-                    MessageBox.Show("Invalid input.", "ModifierX");
+                if ((morethanTextBox.Text.Equals("")) && (lessthanTextBox.Text.Equals("")))
+                {
+                    MessageBox.Show("Empty Input", "ModifierX");
                     return;
                 }
+                double more, less;
+                List<Element> FilteredElementMoreThan = new List<Element>();
+                if (morethanTextBox.Text != "")
+                {
+                    if (!(double.TryParse(morethanTextBox.Text, out more)))
+                    {
+                        MessageBox.Show("Invalid Input", "ModifierX");
+                        return;
+                    }
+                    if (morethanComboBox.SelectedIndex == 0)
+                    {
+                        foreach (Element element in selectedEles)
+                        {
+                            double value = element.GetParameters(parametersComboBox.Text)[0].AsDouble();
+                            value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
+                            if (value > more)
+                            {
+                                FilteredElementMoreThan.Add(element);
+                            }
+                        }
+                    }
+                    else if (morethanComboBox.SelectedIndex == 1)
+                    {
+                        foreach (Element element in selectedEles)
+                        {
+                            double value = element.GetParameters(parametersComboBox.Text)[0].AsDouble();
+                            value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
+                            if (value >= more)
+                            {
+                                FilteredElementMoreThan.Add(element);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    FilteredElementMoreThan = selectedEles;
+                }
 
-                if (morethanComboBox.SelectedIndex == 0 && lessthanComboBox.SelectedIndex == 0)
+                if (!(lessthanTextBox.Text.Equals("")))
                 {
-                    foreach (Element element in selectedEles)
+                    if (!(double.TryParse(lessthanTextBox.Text, out less)))
                     {
-                        double value = element.GetParameters(parametersComboBox.Text)[0].AsDouble();
-                        value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
-                        if ((value > more) &&(value < less))
+                        MessageBox.Show("Invalid Input", "ModifierX");
+                        return;
+                    }
+                    if (lessthanComboBox.SelectedIndex == 0)
+                    {
+                        foreach (Element element in FilteredElementMoreThan)
                         {
-                            FilteredElement.Add(element);
+                            double value = element.GetParameters(parametersComboBox.Text)[0].AsDouble();
+                            value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
+                            if (value < less)
+                            {
+                                FilteredElement.Add(element);
+                            }
+                        }
+                    }
+                    else if (lessthanComboBox.SelectedIndex == 1)
+                    {
+                        foreach (Element element in FilteredElementMoreThan)
+                        {
+                            double value = element.GetParameters(parametersComboBox.Text)[0].AsDouble();
+                            value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
+                            if (value <= less)
+                            {
+                                FilteredElement.Add(element);
+                            }
                         }
                     }
                 }
-                else if(morethanComboBox.SelectedIndex == 1 && lessthanComboBox.SelectedIndex == 0)
+                else
                 {
-                    foreach (Element element in selectedEles)
-                    {
-                        double value = element.GetParameters(parametersComboBox.Text)[0].AsDouble();
-                        value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
-                        if ((value >= more) && (value < less))
-                        {
-                            FilteredElement.Add(element);
-                        }
-                    }
-                }
-                else if (morethanComboBox.SelectedIndex == 0 && lessthanComboBox.SelectedIndex == 1)
-                {
-                    foreach (Element element in selectedEles)
-                    {
-                        double value = element.GetParameters(parametersComboBox.Text)[0].AsDouble();
-                        value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
-                        if ((value > more) && (value <= less))
-                        {
-                            FilteredElement.Add(element);
-                        }
-                    }
-                }
-                else if (morethanComboBox.SelectedIndex == 1 && lessthanComboBox.SelectedIndex == 1)
-                {
-                    foreach (Element element in selectedEles)
-                    {
-                        double value = element.GetParameters(parametersComboBox.Text)[0].AsDouble();
-                        value = Autodesk.Revit.DB.UnitUtils.Convert(value, DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, DisplayUnitType.DUT_MILLIMETERS);
-                        if ((value >= more) && (value <= less))
-                        {
-                            FilteredElement.Add(element);
-                        }
-                    }
+                    FilteredElement = FilteredElementMoreThan;
                 }
             }
             else if(chosenPara.StorageType == StorageType.String)
@@ -407,7 +442,7 @@ namespace CommonParamsModifier
                 {
                     string tempStr = element.GetParameters(parametersComboBox.Text)[0].AsString();
                     if (tempStr == null) { continue; }
-                    if (element.GetParameters(parametersComboBox.Text)[0].AsString().Contains(stringFilterComboBox.Text))
+                    if (element.GetParameters(parametersComboBox.Text)[0].AsString().Contains(stringFilterTextBox.Text))
                     {
                         FilteredElement.Add(element);
                     }
