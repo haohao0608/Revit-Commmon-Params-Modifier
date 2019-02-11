@@ -304,7 +304,7 @@ namespace CommonParamsModifier
             {
                 selectParameterConfirmButton.Visible = true;
                 chosenPara = selectedEles[0].GetParameters(chosenStr)[0];
-                if (chosenPara.StorageType == StorageType.Double)
+                if (chosenPara.StorageType == Autodesk.Revit.DB.StorageType.Double)
                 {
                     filterContainsLabel.Visible = stringFilterTextBox.Visible = false;
                     morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible =
@@ -313,21 +313,21 @@ namespace CommonParamsModifier
                     lessthanComboBox.SelectedIndex = 0;
                     selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, lessthanTextBox.Location.Y + lessthanTextBox.Size.Height + 6);
                 }
-                else if (chosenPara.StorageType == StorageType.String)
+                else if (chosenPara.StorageType == Autodesk.Revit.DB.StorageType.String)
                 {
                     stringFilterTextBox.Visible = filterContainsLabel.Visible = true;
-                    morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible = 
+                    morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible =
                         morethanUnit.Visible = lessthanUnit.Visible = false;
                     selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, stringFilterTextBox.Location.Y + stringFilterTextBox.Size.Height + 6);
                 }
                 else
                 {
                     filterContainsLabel.Visible = stringFilterTextBox.Visible = false;
-                    morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible = 
+                    morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible =
                         morethanUnit.Visible = lessthanUnit.Visible = false;
-                    selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, parametersComboBox.Location.Y + parametersComboBox.Size.Height + 6);
+                    selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, StorageTypeLabel.Location.Y + StorageTypeLabel.Size.Height + 6);
                 }
-                label1.Text = chosenPara.StorageType.ToString()+' ' + chosenPara.IsReadOnly.ToString()+' ' + chosenPara.UserModifiable.ToString();
+                StorageTypeLabel.Text = "Storage Type: "+chosenPara.StorageType.ToString();
             }
             else
             {
@@ -353,7 +353,7 @@ namespace CommonParamsModifier
                 selectedEles.AddRange(allElements.FindAll(x => x.Category.Id.IntegerValue.Equals(category.Id.IntegerValue)));
             }
 
-            if (chosenPara.StorageType == StorageType.Double)
+            if (chosenPara.StorageType == Autodesk.Revit.DB.StorageType.Double)
             {
                 if ((morethanTextBox.Text.Equals("")) && (lessthanTextBox.Text.Equals("")))
                 {
@@ -436,7 +436,7 @@ namespace CommonParamsModifier
                     FilteredElement = FilteredElementMoreThan;
                 }
             }
-            else if(chosenPara.StorageType == StorageType.String)
+            else if(chosenPara.StorageType == Autodesk.Revit.DB.StorageType.String)
             {
                 foreach(Element element in selectedEles)
                 {
@@ -471,10 +471,10 @@ namespace CommonParamsModifier
         {
             if (chosenPara == null) { return;  }
             this.manualResetEvent = new ManualResetEvent(false);
-            if (chosenPara.StorageType == StorageType.Double)
+            if (chosenPara.StorageType == Autodesk.Revit.DB.StorageType.Double)
             {
                 this.modifierXEventHandler.SetActionAndRaise(this.StorageTypeDoubleModifierEvent, this.manualResetEvent);
-            }else if(chosenPara.StorageType == StorageType.String)
+            }else if(chosenPara.StorageType == Autodesk.Revit.DB.StorageType.String)
             {
                 this.modifierXEventHandler.SetActionAndRaise(this.StorageTypeStringModifierEvent, this.manualResetEvent);
             }

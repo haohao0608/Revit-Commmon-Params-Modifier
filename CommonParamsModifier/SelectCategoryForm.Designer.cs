@@ -32,6 +32,9 @@
             this.parametersComboBox = new System.Windows.Forms.ComboBox();
             this.selectParameterLabel = new System.Windows.Forms.Label();
             this.filterPanel = new System.Windows.Forms.Panel();
+            this.lessthanUnit = new System.Windows.Forms.Label();
+            this.morethanUnit = new System.Windows.Forms.Label();
+            this.StorageTypeLabel = new System.Windows.Forms.Label();
             this.selectParameterConfirmButton = new System.Windows.Forms.Button();
             this.filterContainsLabel = new System.Windows.Forms.Label();
             this.stringFilterTextBox = new System.Windows.Forms.TextBox();
@@ -45,9 +48,6 @@
             this.modifyButton = new System.Windows.Forms.Button();
             this.modifyTextBox = new System.Windows.Forms.TextBox();
             this.categoryCheckedListBox = new System.Windows.Forms.CheckedListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.morethanUnit = new System.Windows.Forms.Label();
-            this.lessthanUnit = new System.Windows.Forms.Label();
             this.filterPanel.SuspendLayout();
             this.modifyPanel.SuspendLayout();
             this.SuspendLayout();
@@ -84,7 +84,7 @@
             // 
             this.filterPanel.Controls.Add(this.lessthanUnit);
             this.filterPanel.Controls.Add(this.morethanUnit);
-            this.filterPanel.Controls.Add(this.label1);
+            this.filterPanel.Controls.Add(this.StorageTypeLabel);
             this.filterPanel.Controls.Add(this.selectParameterConfirmButton);
             this.filterPanel.Controls.Add(this.filterContainsLabel);
             this.filterPanel.Controls.Add(this.stringFilterTextBox);
@@ -99,9 +99,36 @@
             this.filterPanel.Size = new System.Drawing.Size(273, 248);
             this.filterPanel.TabIndex = 3;
             // 
+            // lessthanUnit
+            // 
+            this.lessthanUnit.Location = new System.Drawing.Point(235, 126);
+            this.lessthanUnit.Name = "lessthanUnit";
+            this.lessthanUnit.Size = new System.Drawing.Size(32, 15);
+            this.lessthanUnit.TabIndex = 11;
+            this.lessthanUnit.Text = "(mm)";
+            this.lessthanUnit.Visible = false;
+            // 
+            // morethanUnit
+            // 
+            this.morethanUnit.Location = new System.Drawing.Point(235, 99);
+            this.morethanUnit.Name = "morethanUnit";
+            this.morethanUnit.Size = new System.Drawing.Size(32, 15);
+            this.morethanUnit.TabIndex = 10;
+            this.morethanUnit.Text = "(mm)";
+            this.morethanUnit.Visible = false;
+            // 
+            // StorageTypeLabel
+            // 
+            this.StorageTypeLabel.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.StorageTypeLabel.Location = new System.Drawing.Point(11, 74);
+            this.StorageTypeLabel.Name = "StorageTypeLabel";
+            this.StorageTypeLabel.Size = new System.Drawing.Size(252, 22);
+            this.StorageTypeLabel.TabIndex = 9;
+            this.StorageTypeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // selectParameterConfirmButton
             // 
-            this.selectParameterConfirmButton.Location = new System.Drawing.Point(183, 160);
+            this.selectParameterConfirmButton.Location = new System.Drawing.Point(180, 170);
             this.selectParameterConfirmButton.Name = "selectParameterConfirmButton";
             this.selectParameterConfirmButton.Size = new System.Drawing.Size(80, 25);
             this.selectParameterConfirmButton.TabIndex = 8;
@@ -111,9 +138,10 @@
             // 
             // filterContainsLabel
             // 
-            this.filterContainsLabel.Location = new System.Drawing.Point(14, 86);
+            this.filterContainsLabel.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.filterContainsLabel.Location = new System.Drawing.Point(11, 96);
             this.filterContainsLabel.Name = "filterContainsLabel";
-            this.filterContainsLabel.Size = new System.Drawing.Size(56, 21);
+            this.filterContainsLabel.Size = new System.Drawing.Size(65, 21);
             this.filterContainsLabel.TabIndex = 2;
             this.filterContainsLabel.Text = "Contains:";
             this.filterContainsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -121,7 +149,7 @@
             // 
             // stringFilterTextBox
             // 
-            this.stringFilterTextBox.Location = new System.Drawing.Point(85, 86);
+            this.stringFilterTextBox.Location = new System.Drawing.Point(82, 96);
             this.stringFilterTextBox.Name = "stringFilterTextBox";
             this.stringFilterTextBox.Size = new System.Drawing.Size(178, 20);
             this.stringFilterTextBox.TabIndex = 3;
@@ -129,7 +157,7 @@
             // 
             // lessthanTextBox
             // 
-            this.lessthanTextBox.Location = new System.Drawing.Point(85, 113);
+            this.lessthanTextBox.Location = new System.Drawing.Point(82, 123);
             this.lessthanTextBox.Name = "lessthanTextBox";
             this.lessthanTextBox.Size = new System.Drawing.Size(151, 20);
             this.lessthanTextBox.TabIndex = 7;
@@ -137,7 +165,7 @@
             // 
             // morethanTextBox
             // 
-            this.morethanTextBox.Location = new System.Drawing.Point(85, 86);
+            this.morethanTextBox.Location = new System.Drawing.Point(82, 96);
             this.morethanTextBox.Name = "morethanTextBox";
             this.morethanTextBox.Size = new System.Drawing.Size(151, 20);
             this.morethanTextBox.TabIndex = 5;
@@ -150,7 +178,7 @@
             this.lessthanComboBox.Items.AddRange(new object[] {
             "<",
             "<="});
-            this.lessthanComboBox.Location = new System.Drawing.Point(14, 113);
+            this.lessthanComboBox.Location = new System.Drawing.Point(11, 123);
             this.lessthanComboBox.Name = "lessthanComboBox";
             this.lessthanComboBox.Size = new System.Drawing.Size(56, 21);
             this.lessthanComboBox.TabIndex = 6;
@@ -163,7 +191,7 @@
             this.morethanComboBox.Items.AddRange(new object[] {
             ">",
             ">="});
-            this.morethanComboBox.Location = new System.Drawing.Point(14, 86);
+            this.morethanComboBox.Location = new System.Drawing.Point(11, 96);
             this.morethanComboBox.Name = "morethanComboBox";
             this.morethanComboBox.Size = new System.Drawing.Size(56, 21);
             this.morethanComboBox.TabIndex = 4;
@@ -225,33 +253,6 @@
             this.categoryCheckedListBox.TabIndex = 2;
             this.categoryCheckedListBox.SelectedValueChanged += new System.EventHandler(this.CheckedListBoxCheckedItemsChanged);
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(82, 196);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "label1";
-            // 
-            // morethanUnit
-            // 
-            this.morethanUnit.Location = new System.Drawing.Point(238, 89);
-            this.morethanUnit.Name = "morethanUnit";
-            this.morethanUnit.Size = new System.Drawing.Size(32, 15);
-            this.morethanUnit.TabIndex = 10;
-            this.morethanUnit.Text = "(mm)";
-            this.morethanUnit.Visible = false;
-            // 
-            // lessthanUnit
-            // 
-            this.lessthanUnit.Location = new System.Drawing.Point(238, 116);
-            this.lessthanUnit.Name = "lessthanUnit";
-            this.lessthanUnit.Size = new System.Drawing.Size(32, 15);
-            this.lessthanUnit.TabIndex = 11;
-            this.lessthanUnit.Text = "(mm)";
-            this.lessthanUnit.Visible = false;
-            // 
             // ModifierXForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -291,7 +292,7 @@
         private System.Windows.Forms.Button modifyButton;
         private System.Windows.Forms.CheckedListBox categoryCheckedListBox;
         private System.Windows.Forms.Label modifyLabel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label StorageTypeLabel;
         private System.Windows.Forms.Label lessthanUnit;
         private System.Windows.Forms.Label morethanUnit;
     }
