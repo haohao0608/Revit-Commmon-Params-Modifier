@@ -19,5 +19,5 @@ A practice Revit add-on
 * Open Revit, give permissions if load confirmation is needed
 
 ## Interfaces
-![](images/ScreenShot1.PNG)
+![](Images/ScreenShot1.PNG)
 
