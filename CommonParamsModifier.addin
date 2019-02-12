@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+    
+    <AddIn Type="Application">
+        <Assembly>C:\Users\labuser\Desktop\Intern Files\CommonParamsModifier\CommonParamsModifier\bin\Debug\CommonParamsModifier.dll</Assembly>
+        <FullClassName>CommonParamsModifier.ApplicationMain</FullClassName>
+        <ClientId>11C99278-7EDB-42CB-BEAA-02CBE5176B53</ClientId>
+        <Name>CommonParamsModifier</Name>
+        <VendorId>UalbModu</VendorId>
+        <VendorDescription>U of A Modular Construction</VendorDescription>
+    </AddIn>
+    
+</RevitAddIns>
