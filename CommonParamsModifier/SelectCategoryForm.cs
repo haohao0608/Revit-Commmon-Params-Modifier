@@ -327,14 +327,17 @@ namespace CommonParamsModifier
                         morethanUnit.Visible = lessthanUnit.Visible = false;
                     selectParameterConfirmButton.Location = new System.Drawing.Point(selectParameterConfirmButton.Location.X, StorageTypeLabel.Location.Y + StorageTypeLabel.Size.Height + 6);
                 }
+                StorageTypeLabel.Visible = true;
                 StorageTypeLabel.Text = "Storage Type: "+chosenPara.StorageType.ToString();
             }
             else
             {
                 chosenPara = null;
                 filterContainsLabel.Visible = stringFilterTextBox.Visible = false;
-                morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible = false;
+                morethanComboBox.Visible = lessthanComboBox.Visible = morethanTextBox.Visible = lessthanTextBox.Visible =
+                    morethanUnit.Visible = lessthanUnit.Visible = false;
                 selectParameterConfirmButton.Visible = false;
+                StorageTypeLabel.Visible = false;
             }
         }
 
