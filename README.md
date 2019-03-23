@@ -1,6 +1,6 @@
 # Revit-Commmon-Parms-Modifier
 
-A practice Revit add-on
+A practice of Revit add-on
 
 ## Requirements
 
