@@ -6,7 +6,7 @@ A practice of Revit add-on
 
 * Revit 2017
 
-## common steps
+## Common steps
 
 * Download and install Revit 2017
 
